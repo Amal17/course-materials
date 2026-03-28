@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bahan Ajar Cloud Computing — Pertemuan 2</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: system-ui, sans-serif;
+				background: #fff;
+				color: #1a1a1a;
+				padding: 2rem;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+			.deck {
+				width: 100%;
+			}
+			.slide {
+				display: none;
+				padding: 1.5rem 0;
+			}
+			.slide.active {
+				display: block;
+			}
+			.progress-bar {
+				width: 100%;
+				height: 4px;
+				background: #e5e5e5;
+				border-radius: 2px;
+				margin-bottom: 1.5rem;
+			}
+			.progress-fill {
+				height: 4px;
+				background: #534ab7;
+				border-radius: 2px;
+				transition: width 0.3s ease;
+			}
+			.slide-meta {
+				font-size: 12px;
+				color: #888;
+				margin-bottom: 0.5rem;
+				letter-spacing: 0.05em;
+			}
+			.slide-title {
+				font-size: 22px;
+				font-weight: 500;
+				color: #1a1a1a;
+				margin-bottom: 1rem;
+				line-height: 1.3;
+			}
+			.slide-sub {
+				font-size: 14px;
+				color: #555;
+				line-height: 1.6;
+				margin-bottom: 1.25rem;
+			}
+			.timer-badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 5px;
+				font-size: 11px;
+				color: #534ab7;
+				background: #eeedfe;
+				padding: 3px 10px;
+				border-radius: 20px;
+				margin-bottom: 1rem;
+			}
+			.card-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+				gap: 10px;
+				margin: 1rem 0;
+			}
+			.card {
+				background: #f5f5f5;
+				border-radius: 8px;
+				padding: 1rem;
+			}
+			.card-label {
+				font-size: 13px;
+				font-weight: 500;
+				color: #1a1a1a;
+				margin-bottom: 6px;
+			}
+			.card-desc {
+				font-size: 12px;
+				color: #555;
+				line-height: 1.5;
+			}
+			.highlight-box {
+				border-left: 3px solid #534ab7;
+				padding: 0.75rem 1rem;
+				background: #f5f5f5;
+				border-radius: 0 8px 8px 0;
+				margin: 1rem 0;
+			}
+			.highlight-box p {
+				font-size: 14px;
+				color: #1a1a1a;
+				line-height: 1.6;
+			}
+			.layer-stack {
+				margin: 1rem 0;
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+			}
+			.layer {
+				border-radius: 8px;
+				padding: 0.85rem 1rem;
+			}
+			.layer-saas {
+				background: #eeedfe;
+			}
+			.layer-saas .layer-title {
+				color: #3c3489;
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.layer-paas {
+				background: #e1f5ee;
+			}
+			.layer-paas .layer-title {
+				color: #085041;
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.layer-iaas {
+				background: #faece7;
+			}
+			.layer-iaas .layer-title {
+				color: #712b13;
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.layer-onprem {
+				background: #f5f5f5;
+				border: 0.5px solid #ccc;
+			}
+			.layer-onprem .layer-title {
+				color: #1a1a1a;
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.layer-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			.resp-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1rem 0;
+				font-size: 12px;
+			}
+			.resp-table th {
+				text-align: left;
+				padding: 8px 10px;
+				background: #f5f5f5;
+				color: #555;
+				font-weight: 500;
+				border-bottom: 0.5px solid #ccc;
+			}
+			.resp-table td {
+				padding: 8px 10px;
+				border-bottom: 0.5px solid #e5e5e5;
+				color: #1a1a1a;
+				vertical-align: middle;
+			}
+			.deploy-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+				gap: 10px;
+				margin: 1rem 0;
+			}
+			.deploy-card {
+				border-radius: 8px;
+				padding: 0.9rem;
+				border: 0.5px solid #ddd;
+				background: #fff;
+			}
+			.deploy-title {
+				font-size: 13px;
+				font-weight: 500;
+				color: #1a1a1a;
+				margin-bottom: 6px;
+			}
+			.deploy-desc {
+				font-size: 12px;
+				color: #555;
+				line-height: 1.5;
+			}
+			.deploy-tag {
+				display: inline-block;
+				font-size: 10px;
+				padding: 2px 8px;
+				border-radius: 10px;
+				margin-top: 6px;
+			}
+			.tag-pub {
+				background: #eeedfe;
+				color: #3c3489;
+			}
+			.tag-pri {
+				background: #faece7;
+				color: #712b13;
+			}
+			.tag-hyb {
+				background: #e1f5ee;
+				color: #085041;
+			}
+			.tag-mul {
+				background: #faeeda;
+				color: #633806;
+			}
+			.quiz-area {
+				margin: 1rem 0;
+			}
+			.quiz-item {
+				background: #f5f5f5;
+				border-radius: 8px;
+				padding: 1rem;
+				margin-bottom: 10px;
+			}
+			.quiz-q {
+				font-size: 14px;
+				font-weight: 500;
+				color: #1a1a1a;
+				margin-bottom: 10px;
+			}
+			.quiz-opts {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+			.quiz-opt {
+				font-size: 12px;
+				padding: 6px 14px;
+				border-radius: 8px;
+				border: 0.5px solid #ccc;
+				background: #fff;
+				color: #1a1a1a;
+				cursor: pointer;
+				transition: background 0.15s;
+			}
+			.quiz-opt:hover {
+				background: #f5f5f5;
+			}
+			.quiz-opt.correct {
+				background: #e1f5ee;
+				color: #085041;
+				border-color: #1d9e75;
+			}
+			.quiz-opt.wrong {
+				background: #fcebeb;
+				color: #791f1f;
+				border-color: #e24b4a;
+			}
+			.quiz-feedback {
+				font-size: 12px;
+				margin-top: 8px;
+				color: #555;
+				min-height: 18px;
+			}
+			.srm-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 8px;
+				margin: 1rem 0;
+			}
+			.srm-card {
+				border-radius: 8px;
+				padding: 0.85rem;
+			}
+			.srm-you {
+				background: #e1f5ee;
+			}
+			.srm-you .srm-head {
+				color: #085041;
+				font-size: 12px;
+				font-weight: 500;
+				margin-bottom: 6px;
+			}
+			.srm-you li {
+				font-size: 12px;
+				color: #0f6e56;
+			}
+			.srm-prov {
+				background: #eeedfe;
+			}
+			.srm-prov .srm-head {
+				color: #3c3489;
+				font-size: 12px;
+				font-weight: 500;
+				margin-bottom: 6px;
+			}
+			.srm-prov li {
+				font-size: 12px;
+				color: #534ab7;
+			}
+			.srm-list {
+				list-style: none;
+				padding: 0;
+			}
+			.srm-list li {
+				padding: 3px 0;
+				border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+			}
+			.srm-list li:last-child {
+				border-bottom: none;
+			}
+			.summary-list {
+				list-style: none;
+				margin: 1rem 0;
+			}
+			.summary-list li {
+				display: flex;
+				gap: 10px;
+				padding: 8px 0;
+				border-bottom: 0.5px solid #e5e5e5;
+				font-size: 14px;
+				color: #1a1a1a;
+				line-height: 1.5;
+				align-items: flex-start;
+			}
+			.summary-list li:last-child {
+				border-bottom: none;
+			}
+			.check {
+				color: #534ab7;
+				font-size: 14px;
+				margin-top: 2px;
+				min-width: 16px;
+			}
+			.ask-btn {
+				font-size: 13px;
+				padding: 8px 16px;
+				border-radius: 8px;
+				border: 0.5px solid #ccc;
+				background: transparent;
+				color: #1a1a1a;
+				cursor: pointer;
+				margin-right: 8px;
+				margin-top: 8px;
+			}
+			.ask-btn:hover {
+				background: #f5f5f5;
+			}
+			.nav {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 1.5rem;
+				padding-top: 1rem;
+				border-top: 0.5px solid #e5e5e5;
+			}
+			.nav-btn {
+				font-size: 13px;
+				padding: 8px 18px;
+				border-radius: 8px;
+				border: 0.5px solid #ccc;
+				background: transparent;
+				color: #1a1a1a;
+				cursor: pointer;
+			}
+			.nav-btn:hover {
+				background: #f5f5f5;
+			}
+			.nav-btn:disabled {
+				opacity: 0.3;
+				cursor: default;
+			}
+			.nav-btn.primary {
+				background: #534ab7;
+				color: white;
+				border-color: #534ab7;
+			}
+			.nav-btn.primary:hover {
+				background: #3c3489;
+				border-color: #3c3489;
+			}
+			.slide-counter {
+				font-size: 13px;
+				color: #888;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="deck">
+			<div class="progress-bar"
+				><div class="progress-fill" id="prog" style="width: 12.5%"></div
+			></div>
+
+			<!-- Slide 1: Pembuka -->
+			<div class="slide active" id="s1">
+				<div class="slide-meta"
+					>Pertemuan 2 · Cloud Computing IFR225</div
+				>
+				<div class="timer-badge">⏱ ~30 menit · 8 topik</div>
+				<div class="slide-title">Model layanan & deployment cloud</div>
+				<div class="slide-sub"
+					>IaaS, PaaS, SaaS — tiga istilah yang sering terdengar, tapi
+					apa bedanya dan mana yang relevan untuk pekerjaan Anda?</div
+				>
+				<div class="card-grid">
+					<div class="card">
+						<div class="card-label">Tujuan hari ini</div>
+						<div class="card-desc"
+							>Membedakan model layanan cloud dan mengaitkannya
+							dengan contoh nyata di tempat kerja</div
+						>
+					</div>
+					<div class="card">
+						<div class="card-label">Metode</div>
+						<div class="card-desc"
+							>Diskusi interaktif, tabel komparasi, dan kuis
+							klasifikasi layanan interaktif</div
+						>
+					</div>
+					<div class="card">
+						<div class="card-label">Review pertemuan 1</div>
+						<div class="card-desc"
+							>Cloud = on-demand, elastis, pay-as-you-go. Ada 3
+							pemain besar global + opsi lokal Indonesia</div
+						>
+					</div>
+				</div>
+			</div>
+
+			<!-- Slide 2: Analogi -->
+			<div class="slide" id="s2">
+				<div class="slide-meta">Topik 1 · Analogi</div>
+				<div class="slide-title"
+					>Analogi: sewa rumah vs bangun sendiri</div
+				>
+				<div class="slide-sub"
+					>Sebelum masuk ke istilah teknis, mari pikirkan model cloud
+					seperti pilihan tempat tinggal.</div
+				>
+				<div class="card-grid">
+					<div class="card">
+						<div class="card-label"
+							>On-premise = bangun rumah sendiri</div
+						>
+						<div class="card-desc"
+							>Anda beli tanah, beli material, bangun, dan urus
+							semua sendiri. Bebas tapi mahal dan butuh waktu
+							lama.</div
+						>
+					</div>
+					<div class="card">
+						<div class="card-label"
+							>IaaS = sewa tanah + bangunan kosong</div
+						>
+						<div class="card-desc"
+							>Penyedia menyediakan struktur dasar. Anda isi
+							sendiri, cat sendiri, atur furnitur sendiri.</div
+						>
+					</div>
+					<div class="card">
+						<div class="card-label"
+							>PaaS = sewa apartemen semi-furnished</div
+						>
+						<div class="card-desc"
+							>Dapur, listrik, air sudah ada. Anda tinggal bawa
+							barang bawaan dan mulai hidup.</div
+						>
+					</div>
+					<div class="card">
+						<div class="card-label">SaaS = tinggal di hotel</div>
+						<div class="card-desc"
+							>Semua sudah disiapkan. Anda tinggal masuk, pakai,
+							dan bayar per malam. Zero konfigurasi.</div
+						>
+					</div>
+				</div>
+			</div>
+
+			<!-- Slide 3: Layer Stack -->
+			<div class="slide" id="s3">
+				<div class="slide-meta">Topik 2 · Model layanan</div>
+				<div class="slide-title">Tiga model layanan cloud</div>
+				<div class="slide-sub"
+					>Semakin ke atas, semakin banyak yang dikelola penyedia —
+					dan semakin sedikit yang perlu Anda urus.</div
+				>
+				<div class="layer-stack">
+					<div class="layer layer-saas">
+						<div class="layer-row">
+							<div>
+								<div class="layer-title"
+									>SaaS — Software as a Service</div
+								>
+								<div
+									style="
+										font-size: 11px;
+										color: #534ab7;
+										margin-top: 2px;
+									"
+									>Aplikasi siap pakai langsung dari
+									browser</div
+								>
+							</div>
+							<div
+								style="
+									font-size: 11px;
+									color: #3c3489;
+									text-align: right;
+								"
+								>Penyedia kelola<br />semuanya</div
+							>
+						</div>
+						<div
+							style="
+								font-size: 12px;
+								color: #534ab7;
+								margin-top: 6px;
+							"
+							>Contoh: Gmail, Microsoft 365, Zoom, Salesforce,
+							Canva, Google Workspace</div
+						>
+					</div>
+					<div class="layer layer-paas">
+						<div class="layer-row">
+							<div>
+								<div class="layer-title"
+									>PaaS — Platform as a Service</div
+								>
+								<div
+									style="
+										font-size: 11px;
+										color: #0f6e56;
+										margin-top: 2px;
+									"
+									>Platform untuk membangun & deploy
+									aplikasi</div
+								>
+							</div>
+							<div
+								style="
+									font-size: 11px;
+									color: #085041;
+									text-align: right;
+								"
+								>Anda kelola<br />aplikasi & data</div
+							>
+						</div>
+						<div
+							style="
+								font-size: 12px;
+								color: #0f6e56;
+								margin-top: 6px;
+							"
+							>Contoh: Google App Engine, Heroku, AWS Elastic
+							Beanstalk, Vercel</div
+						>
+					</div>
+					<div class="layer layer-iaas">
+						<div class="layer-row">
+							<div>
+								<div class="layer-title"
+									>IaaS — Infrastructure as a Service</div
+								>
+								<div
+									style="
+										font-size: 11px;
+										color: #993c1d;
+										margin-top: 2px;
+									"
+									>Server virtual, storage, jaringan</div
+								>
+							</div>
+							<div
+								style="
+									font-size: 11px;
+									color: #712b13;
+									text-align: right;
+								"
+								>Anda kelola<br />OS ke atas</div
+							>
+						</div>
+						<div
+							style="
+								font-size: 12px;
+								color: #993c1d;
+								margin-top: 6px;
+							"
+							>Contoh: AWS EC2, Google Compute Engine, Azure
+							Virtual Machines</div
+						>
+					</div>
+					<div class="layer layer-onprem">
+						<div class="layer-row">
+							<div>
+								<div class="layer-title"
+									>On-premise (referensi)</div
+								>
+							</div>
+							<div
+								style="
+									font-size: 11px;
+									color: #555;
+									text-align: right;
+								"
+								>Anda kelola<br />segalanya</div
+							>
+						</div>
+						<div
+							style="
+								font-size: 12px;
+								color: #555;
+								margin-top: 4px;
+							"
+							>Hardware, jaringan, OS, middleware, aplikasi, data
+							— semua tanggung jawab Anda</div
+						>
+					</div>
+				</div>
+			</div>
+
+			<!-- Slide 4: Shared Responsibility Model -->
+			<div class="slide" id="s4">
+				<div class="slide-meta">Topik 3 · Tanggung jawab</div>
+				<div class="slide-title">Shared responsibility model</div>
+				<div class="slide-sub"
+					>Siapa bertanggung jawab atas apa? Ini penting agar tidak
+					ada yang "tidak dijaga" saat insiden terjadi.</div
+				>
+				<div class="srm-grid">
+					<div class="srm-card srm-prov">
+						<div class="srm-head"
+							>Penyedia cloud bertanggung jawab atas:</div
+						>
+						<ul class="srm-list">
+							<li>Keamanan fisik data center</li>
+							<li>Hardware & infrastruktur jaringan</li>
+							<li>Hypervisor & virtualisasi</li>
+							<li>Ketersediaan layanan (uptime)</li>
+							<li>Keamanan platform itu sendiri</li>
+						</ul>
+					</div>
+					<div class="srm-card srm-you">
+						<div class="srm-head"
+							>Pengguna bertanggung jawab atas:</div
+						>
+						<ul class="srm-list">
+							<li>Data yang disimpan di cloud</li>
+							<li>Manajemen akses & identitas (IAM)</li>
+							<li>Konfigurasi keamanan aplikasi</li>
+							<li>Enkripsi data sensitif</li>
+							<li>Kepatuhan regulasi (UU PDP, dll.)</li>
+						</ul>
+					</div>
+				</div>
+				<div class="highlight-box">
+					<p
+						>Kesalahpahaman umum: "Data saya aman karena sudah di
+						cloud." Penyedia mengamankan infrastrukturnya — tapi
+						konfigurasi yang salah dari sisi pengguna tetap bisa
+						menyebabkan kebocoran data.</p
+					>
+				</div>
+			</div>
+
+			<!-- Slide 5: Kuis -->
+			<div class="slide" id="s5">
+				<div class="slide-meta">Topik 4 · Kuis interaktif</div>
+				<div class="slide-title">Kuis: termasuk model apa?</div>
+				<div class="slide-sub"
+					>Klik jawaban yang menurut Anda tepat untuk setiap layanan
+					berikut.</div
+				>
+				<div class="quiz-area" id="quizArea"></div>
+			</div>
+
+			<!-- Slide 6: Model Deployment -->
+			<div class="slide" id="s6">
+				<div class="slide-meta">Topik 5 · Model deployment</div>
+				<div class="slide-title">Model deployment cloud</div>
+				<div class="slide-sub"
+					>Selain jenis layanan, cloud juga dibedakan berdasarkan di
+					mana dan bagaimana infrastrukturnya dikelola.</div
+				>
+				<div class="deploy-grid">
+					<div class="deploy-card">
+						<div class="deploy-title">Public cloud</div>
+						<div class="deploy-desc"
+							>Infrastruktur dimiliki dan dioperasikan penyedia.
+							Dibagi bersama banyak pelanggan secara virtual.</div
+						>
+						<div class="deploy-tag tag-pub">Paling umum</div>
+					</div>
+					<div class="deploy-card">
+						<div class="deploy-title">Private cloud</div>
+						<div class="deploy-desc"
+							>Infrastruktur eksklusif untuk satu organisasi. Bisa
+							di data center sendiri atau dikelola pihak
+							ketiga.</div
+						>
+						<div class="deploy-tag tag-pri">Keamanan tinggi</div>
+					</div>
+					<div class="deploy-card">
+						<div class="deploy-title">Hybrid cloud</div>
+						<div class="deploy-desc"
+							>Kombinasi public dan private. Data sensitif tetap
+							on-premise, beban kerja lain di public cloud.</div
+						>
+						<div class="deploy-tag tag-hyb">Paling fleksibel</div>
+					</div>
+					<div class="deploy-card">
+						<div class="deploy-title">Multi-cloud</div>
+						<div class="deploy-desc"
+							>Menggunakan lebih dari satu penyedia cloud
+							sekaligus. Menghindari vendor lock-in.</div
+						>
+						<div class="deploy-tag tag-mul">Strategi lanjutan</div>
+					</div>
+				</div>
+				<div class="highlight-box">
+					<p
+						>Bank Indonesia dan banyak BUMN memilih hybrid cloud —
+						data nasabah tetap di server lokal sesuai regulasi OJK,
+						sementara aplikasi digital banking berjalan di public
+						cloud untuk skalabilitas.</p
+					>
+				</div>
+			</div>
+
+			<!-- Slide 7: Panduan memilih -->
+			<div class="slide" id="s7">
+				<div class="slide-meta">Topik 6 · Panduan pemilihan</div>
+				<div class="slide-title"
+					>Bagaimana memilih model yang tepat?</div
+				>
+				<div class="slide-sub"
+					>Tidak ada satu jawaban yang benar untuk semua organisasi.
+					Pertimbangkan faktor-faktor ini.</div
+				>
+				<table class="resp-table">
+					<thead>
+						<tr>
+							<th>Pertanyaan</th>
+							<th>Jika ya → pertimbangkan</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Apakah tim punya kemampuan IT yang kuat?</td>
+							<td style="color: #993c1d"
+								>IaaS — kontrol lebih besar</td
+							>
+						</tr>
+						<tr>
+							<td
+								>Ingin fokus pada pengembangan aplikasi
+								saja?</td
+							>
+							<td style="color: #0f6e56"
+								>PaaS — platform siap pakai</td
+							>
+						</tr>
+						<tr>
+							<td>Butuh tools produktivitas langsung pakai?</td>
+							<td style="color: #534ab7"
+								>SaaS — zero konfigurasi</td
+							>
+						</tr>
+						<tr>
+							<td>Ada regulasi ketat soal lokasi data?</td>
+							<td style="color: #854f0b"
+								>Hybrid atau Private cloud</td
+							>
+						</tr>
+						<tr>
+							<td>Khawatir tergantung satu vendor?</td>
+							<td style="color: #854f0b">Strategi multi-cloud</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Slide 8: Ringkasan -->
+			<div class="slide" id="s8">
+				<div class="slide-meta">Penutup · Ringkasan pertemuan 2</div>
+				<div class="slide-title">Yang kita pelajari hari ini</div>
+				<ul class="summary-list">
+					<li
+						><span class="check">✓</span> IaaS = infrastruktur
+						virtual, PaaS = platform siap deploy, SaaS = aplikasi
+						langsung pakai</li
+					>
+					<li
+						><span class="check">✓</span> Semakin ke SaaS, semakin
+						sedikit yang perlu dikelola — tapi semakin terbatas
+						kontrolnya</li
+					>
+					<li
+						><span class="check">✓</span> Shared responsibility:
+						penyedia amankan infrastruktur, pengguna amankan data &
+						konfigurasi</li
+					>
+					<li
+						><span class="check">✓</span> Public, private, hybrid,
+						dan multi-cloud dipilih sesuai kebutuhan bisnis dan
+						regulasi</li
+					>
+					<li
+						><span class="check">✓</span> Banyak layanan yang sudah
+						Anda gunakan sehari-hari adalah SaaS — Gmail, Zoom,
+						Microsoft 365</li
+					>
+				</ul>
+				<div class="highlight-box" style="margin-top: 1.25rem">
+					<p
+						>Pertemuan berikutnya: kita akan bedah virtualisasi dan
+						container — teknologi yang jadi fondasi semua layanan
+						cloud yang baru saja kita pelajari.</p
+					>
+				</div>
+			</div>
+
+			<div class="nav">
+				<button
+					class="nav-btn"
+					id="prevBtn"
+					onclick="navigate(-1)"
+					disabled
+					>← Sebelumnya</button
+				>
+				<span class="slide-counter" id="counter">1 / 8</span>
+				<button
+					class="nav-btn primary"
+					id="nextBtn"
+					onclick="navigate(1)"
+					>Selanjutnya →</button
+				>
+			</div>
+		</div>
+
+		<script>
+			var cur = 1
+			var total = 8
+
+			var quizData = [
+				{
+					q: 'WhatsApp Business yang dipakai tim marketing untuk kirim notifikasi ke pelanggan',
+					opts: ['IaaS', 'PaaS', 'SaaS', 'On-premise'],
+					ans: 2,
+					fb: 'Benar! WhatsApp Business adalah aplikasi siap pakai — tidak perlu install server, langsung digunakan. Ini SaaS.',
+				},
+				{
+					q: 'Tim developer menyewa server virtual di AWS untuk menjalankan aplikasi web perusahaan',
+					opts: ['IaaS', 'PaaS', 'SaaS', 'Hybrid'],
+					ans: 0,
+					fb: 'Tepat! Menyewa server virtual (EC2) berarti Anda mendapat infrastruktur dan harus urus OS & aplikasi sendiri — ini IaaS.',
+				},
+				{
+					q: 'Perusahaan menggunakan Google App Engine untuk deploy aplikasi Python tanpa urus server',
+					opts: ['IaaS', 'PaaS', 'SaaS', 'Private Cloud'],
+					ans: 1,
+					fb: 'Benar! App Engine menyediakan platform — Anda hanya upload kode, server diurus Google. Ini PaaS.',
+				},
+				{
+					q: 'Kantor menggunakan Microsoft 365 untuk email, Word, Excel, dan Teams',
+					opts: ['IaaS', 'PaaS', 'SaaS', 'Multi-cloud'],
+					ans: 2,
+					fb: 'Tepat! Microsoft 365 adalah suite aplikasi yang langsung dipakai lewat browser atau aplikasi — klasik SaaS.',
+				},
+			]
+
+			var answered = {}
+
+			function buildQuiz() {
+				var area = document.getElementById('quizArea')
+				var html = ''
+				quizData.forEach(function (item, i) {
+					html += '<div class="quiz-item">'
+					html +=
+						'<div class="quiz-q">' +
+						(i + 1) +
+						'. ' +
+						item.q +
+						'</div>'
+					html += '<div class="quiz-opts">'
+					item.opts.forEach(function (opt, j) {
+						html +=
+							'<button class="quiz-opt" id="q' +
+							i +
+							'o' +
+							j +
+							'" onclick="checkAns(' +
+							i +
+							',' +
+							j +
+							')">' +
+							opt +
+							'</button>'
+					})
+					html += '</div>'
+					html += '<div class="quiz-feedback" id="qf' + i + '"></div>'
+					html += '</div>'
+				})
+				area.innerHTML = html
+			}
+
+			function checkAns(qi, oi) {
+				if (answered[qi]) return
+				answered[qi] = true
+				var item = quizData[qi]
+				var btn = document.getElementById('q' + qi + 'o' + oi)
+				var fb = document.getElementById('qf' + qi)
+				if (oi === item.ans) {
+					btn.className = 'quiz-opt correct'
+					fb.textContent = item.fb
+					fb.style.color = '#0F6E56'
+				} else {
+					btn.className = 'quiz-opt wrong'
+					var correctBtn = document.getElementById(
+						'q' + qi + 'o' + item.ans,
+					)
+					correctBtn.className = 'quiz-opt correct'
+					fb.textContent = 'Belum tepat. ' + item.fb
+					fb.style.color = '#791F1F'
+				}
+			}
+
+			function navigate(dir) {
+				document.getElementById('s' + cur).classList.remove('active')
+				cur += dir
+				document.getElementById('s' + cur).classList.add('active')
+				document.getElementById('counter').textContent =
+					cur + ' / ' + total
+				document.getElementById('prog').style.width =
+					Math.round((cur / total) * 100) + '%'
+				document.getElementById('prevBtn').disabled = cur === 1
+				document.getElementById('nextBtn').disabled = cur === total
+				document.getElementById('nextBtn').textContent =
+					cur === total ? 'Selesai ✓' : 'Selanjutnya →'
+			}
+
+			buildQuiz()
+		</script>
+	</body>
+</html>
